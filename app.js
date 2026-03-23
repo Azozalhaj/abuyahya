@@ -1566,7 +1566,7 @@ async function exportFullReport() {
   });
 
   // ── Styles ──
-  const css = \`
+  const css = `
     @page { margin:1.5cm 1.8cm; size: A4; }
     * { box-sizing:border-box; }
     body { font-family:'Segoe UI',Arial,sans-serif; direction:rtl; color:#1a1a1a; font-size:9pt; line-height:1.4; }
@@ -1611,7 +1611,7 @@ async function exportFullReport() {
     /* Page break helper */
     .pb { page-break-before:always; }
     .no-break { page-break-inside:avoid; }
-  \`;
+  `;
 
   // ── Helper: mini client card ──
   function clientCard(u, idx) {
@@ -1620,29 +1620,29 @@ async function exportFullReport() {
     const pct   = total > 0 ? Math.round(used/total*100) : 0;
     const complete = used >= total && total > 0;
     const numStr = u.clientNumber ? '#'+String(u.clientNumber).padStart(4,'0') : String(idx+1);
-    return \`<div class="no-break" style="margin-bottom:8px;border:1px solid #dde;border-radius:4px;overflow:hidden">
+    return `<div class="no-break" style="margin-bottom:8px;border:1px solid #dde;border-radius:4px;overflow:hidden">
       <div style="background:#f0f7e8;padding:4px 8px;display:flex;justify-content:space-between;align-items:center">
-        <strong style="font-size:8.5pt;color:#1a3d08">\${u.name||'—'}</strong>
-        <span style="font-size:7.5pt;color:#5a7a3a;font-weight:bold">\${numStr}</span>
+        <strong style="font-size:8.5pt;color:#1a3d08">${u.name||'—'}</strong>
+        <span style="font-size:7.5pt;color:#5a7a3a;font-weight:bold">${numStr}</span>
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:7.5pt">
-        <tr><td style="padding:2px 8px;color:#555;width:40%">الواتساب</td><td style="padding:2px 8px" dir="ltr">\${u.phone||'—'}</td></tr>
-        <tr style="background:#f9fff4"><td style="padding:2px 8px;color:#555">الحي</td><td style="padding:2px 8px">\${u.neighborhood||'—'}</td></tr>
-        <tr><td style="padding:2px 8px;color:#555">الخدمة</td><td style="padding:2px 8px">\${u.serviceType||'—'}</td></tr>
-        <tr style="background:#f9fff4"><td style="padding:2px 8px;color:#555">أيام</td><td style="padding:2px 8px">\${(u.visitDays||[]).join(' | ')||'—'}</td></tr>
+        <tr><td style="padding:2px 8px;color:#555;width:40%">الواتساب</td><td style="padding:2px 8px" dir="ltr">${u.phone||'—'}</td></tr>
+        <tr style="background:#f9fff4"><td style="padding:2px 8px;color:#555">الحي</td><td style="padding:2px 8px">${u.neighborhood||'—'}</td></tr>
+        <tr><td style="padding:2px 8px;color:#555">الخدمة</td><td style="padding:2px 8px">${u.serviceType||'—'}</td></tr>
+        <tr style="background:#f9fff4"><td style="padding:2px 8px;color:#555">أيام</td><td style="padding:2px 8px">${(u.visitDays||[]).join(' | ')||'—'}</td></tr>
         <tr><td style="padding:2px 8px;color:#555">الغسلات</td>
-          <td style="padding:2px 8px">\${used}/\${total}
-            \${complete ? '<span class="badge-orange">مكتمل</span>' : ''}
+          <td style="padding:2px 8px">${used}/${total}
+            ${complete ? '<span class="badge-orange">مكتمل</span>' : ''}
           </td>
         </tr>
         <tr style="background:#f9fff4"><td style="padding:2px 8px;color:#555">السعر</td>
           <td style="padding:2px 8px;font-weight:bold;color:#1a3d08">
-            \${u.price ? u.price.toLocaleString()+' ﷼' : '—'}
+            ${u.price ? u.price.toLocaleString()+' ﷼' : '—'}
           </td>
         </tr>
-        \${u.notes ? \`<tr><td style="padding:2px 8px;color:#555">ملاحظات</td><td style="padding:2px 8px;font-size:7pt;color:#888">\${u.notes}</td></tr>\` : ''}
+        ${u.notes ? `<tr><td style="padding:2px 8px;color:#555">ملاحظات</td><td style="padding:2px 8px;font-size:7pt;color:#888">${u.notes}</td></tr>` : ''}
       </table>
-    </div>\`;
+    </div>`;
   }
 
   // Split clients into two columns for compact layout
@@ -1655,7 +1655,7 @@ async function exportFullReport() {
     .sort((a,b) => b[1]-a[1])
     .map(([type, rev]) => {
       const cnt = activeClients.filter(u=>(u.serviceType||'أخرى')===type).length;
-      return \`<tr><td>\${type}</td><td>\${cnt} عميل</td><td style="font-weight:bold;color:#1a3d08">\${rev.toLocaleString()} ﷼</td></tr>\`;
+      return `<tr><td>${type}</td><td>${cnt} عميل</td><td style="font-weight:bold;color:#1a3d08">${rev.toLocaleString()} ﷼</td></tr>`;
     }).join('');
 
   // Log rows grouped by action type
@@ -1664,140 +1664,126 @@ async function exportFullReport() {
     logsByAction[l.action] = (logsByAction[l.action]||0) + 1;
   });
   const logSummaryRows = Object.entries(logsByAction)
-    .map(([a,c]) => \`<tr><td>\${a}</td><td style="font-weight:bold">\${c}</td></tr>\`).join('');
+    .map(([a,c]) => `<tr><td>${a}</td><td style="font-weight:bold">${c}</td></tr>`).join('');
 
   // Recent 50 logs only (last records)
   const recentLogs = logs.slice(0, 50);
 
-  const html = \`
+  const html = `
     <html xmlns:o="urn:schemas-microsoft-com:office:office"
           xmlns:w="urn:schemas-microsoft-com:office:word"
           xmlns="http://www.w3.org/TR/REC-html40">
     <head>
       <meta charset="UTF-8"/>
       <meta name="ProgId" content="Word.Document"/>
-      <!--[if gte mso 9]><xml>
-        <w:WordDocument>
-          <w:View>Print</w:View>
-          <w:Zoom>90</w:Zoom>
-          <w:DoNotOptimizeForBrowser/>
-        </w:WordDocument>
-      </xml><![endif]-->
-      <style>\${css}</style>
+      <style>${css}</style>
     </head>
     <body>
 
-      <!-- ══ COVER / HEADER ══ -->
       <h1>تقرير كلين فوم</h1>
       <p class="meta">
-        تاريخ الإنشاء: \${now} &nbsp;·&nbsp;
-        أعده: \${currentUserData?.name||'المالك'} &nbsp;·&nbsp;
-        إجمالي العملاء المسجلين: \${clients.length}
+        تاريخ الإنشاء: ${now}  · 
+        أعده: ${currentUserData?.name||'المالك'}  · 
+        إجمالي العملاء المسجلين: ${clients.length}
       </p>
 
-      <!-- ══ SUMMARY CARDS ══ -->
       <h2>الملخص التنفيذي</h2>
       <div class="cards">
-        <div class="card"><span class="c-val">\${activeClients.length}</span><span class="c-lbl">نشط</span></div>
-        <div class="card"><span class="c-val">\${pendingClients.length}</span><span class="c-lbl">انتظار</span></div>
-        <div class="card"><span class="c-val">\${totalWashes}</span><span class="c-lbl">غسلة منجزة</span></div>
+        <div class="card"><span class="c-val">${activeClients.length}</span><span class="c-lbl">نشط</span></div>
+        <div class="card"><span class="c-val">${pendingClients.length}</span><span class="c-lbl">انتظار</span></div>
+        <div class="card"><span class="c-val">${totalWashes}</span><span class="c-lbl">غسلة منجزة</span></div>
         <div class="card" style="background:#fff8e1;border-color:#f5c842">
-          <span class="c-val" style="color:#b8860b">\${totalRevenue.toLocaleString()}</span>
+          <span class="c-val" style="color:#b8860b">${totalRevenue.toLocaleString()}</span>
           <span class="c-lbl" style="color:#8a6900">إيراد إجمالي ﷼</span>
         </div>
-        <div class="card"><span class="c-val">\${completeCount}</span><span class="c-lbl">باقة مكتملة</span></div>
+        <div class="card"><span class="c-val">${completeCount}</span><span class="c-lbl">باقة مكتملة</span></div>
       </div>
 
-      <!-- ══ REVENUE BREAKDOWN ══ -->
       <table style="width:100%;border-collapse:collapse" class="no-break">
         <tr>
           <td style="width:55%;vertical-align:top;padding-left:12px">
             <h3>الإيرادات حسب نوع الخدمة</h3>
             <table class="rev-table">
               <thead><tr><th>نوع الخدمة</th><th>عدد العملاء</th><th>الإيراد (﷼)</th></tr></thead>
-              <tbody>\${revByTypeRows||'<tr><td colspan="3">لا توجد بيانات</td></tr>'}</tbody>
+              <tbody>${revByTypeRows||'<tr><td colspan="3">لا توجد بيانات</td></tr>'}</tbody>
             </table>
           </td>
           <td style="width:45%;vertical-align:top">
             <h3>ملخص السجلات حسب الإجراء</h3>
             <table class="rev-table">
               <thead><tr><th>الإجراء</th><th>العدد</th></tr></thead>
-              <tbody>\${logSummaryRows||'<tr><td colspan="2">لا توجد سجلات</td></tr>'}</tbody>
+              <tbody>${logSummaryRows||'<tr><td colspan="2">لا توجد سجلات</td></tr>'}</tbody>
             </table>
           </td>
         </tr>
       </table>
 
-      <!-- ══ CLIENTS — TWO COLUMN CARDS ══ -->
-      <h2 class="pb">العملاء النشطون (\${activeClients.length} عميل)</h2>
+      <h2 class="pb">العملاء النشطون (${activeClients.length} عميل)</h2>
       <div class="client-grid">
         <div class="client-col">
-          \${col1.map((u,i) => clientCard(u,i)).join('')}
+          ${col1.map((u,i) => clientCard(u,i)).join('')}
         </div>
         <div class="client-col">
-          \${col2.map((u,i) => clientCard(u, i+half)).join('')}
+          ${col2.map((u,i) => clientCard(u, i+half)).join('')}
         </div>
       </div>
 
-      <!-- ══ PENDING ══ -->
-      \${pendingClients.length > 0 ? \`
-      <h2 class="pb">الطلبات المعلقة (\${pendingClients.length})</h2>
+      ${pendingClients.length > 0 ? `
+      <h2 class="pb">الطلبات المعلقة (${pendingClients.length})</h2>
       <table class="sm-table">
         <thead><tr><th>الاسم</th><th>الواتساب</th><th>الحي</th><th>الخدمة</th><th>أيام التقديم</th></tr></thead>
         <tbody>
-          \${pendingClients.map(u=>\`<tr>
-            <td>\${u.name||'—'}</td>
-            <td dir="ltr">\${u.phone||'—'}</td>
-            <td>\${u.neighborhood||'—'}</td>
-            <td>\${u.serviceType||'—'}</td>
-            <td>\${u.createdAt?(u.createdAt.toDate?u.createdAt.toDate().toLocaleDateString('ar-SA'):'—'):'—'}</td>
-          </tr>\`).join('')}
+          ${pendingClients.map(u=>`<tr>
+            <td>${u.name||'—'}</td>
+            <td dir="ltr">${u.phone||'—'}</td>
+            <td>${u.neighborhood||'—'}</td>
+            <td>${u.serviceType||'—'}</td>
+            <td>${u.createdAt?(u.createdAt.toDate?u.createdAt.toDate().toLocaleDateString('ar-SA'):'—'):'—'}</td>
+          </tr>`).join('')}
         </tbody>
-      </table>\` : ''}
+      </table>` : ''}
 
-      <!-- ══ RECENT LOGS (last 50) ══ -->
-      <h2 class="pb">آخر \${recentLogs.length} عملية مسجلة</h2>
+      <h2 class="pb">آخر ${recentLogs.length} عملية مسجلة</h2>
       <table class="log-table">
         <thead>
           <tr><th>التاريخ</th><th>الإجراء</th><th>المسؤول</th><th>العميل</th><th>التفاصيل</th></tr>
         </thead>
         <tbody>
-          \${recentLogs.map(l=>\`<tr>
+          ${recentLogs.map(l=>`<tr>
             <td style="white-space:nowrap;font-size:7pt">
-              \${l.timestamp?(l.timestamp.toDate?l.timestamp.toDate().toLocaleString('ar-SA',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—'):'—'}
+              ${l.timestamp?(l.timestamp.toDate?l.timestamp.toDate().toLocaleString('ar-SA',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—'):'—'}
             </td>
-            <td>\${l.action||'—'}</td>
-            <td>\${l.adminName||'—'}</td>
-            <td>\${l.clientName||'—'}</td>
-            <td style="font-size:7pt;color:#555">\${l.details||'—'}</td>
-          </tr>\`).join('')}
+            <td>${l.action||'—'}</td>
+            <td>${l.adminName||'—'}</td>
+            <td>${l.clientName||'—'}</td>
+            <td style="font-size:7pt;color:#555">${l.details||'—'}</td>
+          </tr>`).join('')}
         </tbody>
       </table>
 
-      <!-- ══ ARCHIVE ══ -->
-      \${rejClients.length > 0 ? \`
-      <h2 class="pb">أرشيف العملاء المرفوضين/المنتهين (\${rejClients.length})</h2>
+      ${rejClients.length > 0 ? `
+      <h2 class="pb">أرشيف العملاء المرفوضين/المنتهين (${rejClients.length})</h2>
       <table class="sm-table">
         <thead><tr><th>الاسم</th><th>الواتساب</th><th>البريد</th><th>الحالة</th><th>التاريخ</th></tr></thead>
         <tbody>
-          \${rejClients.map(u=>\`<tr>
-            <td>\${u.name||'—'}</td>
-            <td dir="ltr">\${u.phone||'—'}</td>
-            <td dir="ltr" style="font-size:7.5pt">\${u.email||'—'}</td>
-            <td>\${u.status==='rejected'?'<span class="badge-red">مرفوض</span>':'<span class="badge-orange">منتهي</span>'}</td>
-            <td>\${u.createdAt?(u.createdAt.toDate?u.createdAt.toDate().toLocaleDateString('ar-SA'):'—'):'—'}</td>
-          </tr>\`).join('')}
+          ${rejClients.map(u=>`<tr>
+            <td>${u.name||'—'}</td>
+            <td dir="ltr">${u.phone||'—'}</td>
+            <td dir="ltr" style="font-size:7.5pt">${u.email||'—'}</td>
+            <td>${u.status==='rejected'?'<span class="badge-red">مرفوض</span>':'<span class="badge-orange">منتهي</span>'}</td>
+            <td>${u.createdAt?(u.createdAt.toDate?u.createdAt.toDate().toLocaleDateString('ar-SA'):'—'):'—'}</td>
+          </tr>`).join('')}
         </tbody>
-      </table>\` : ''}
+      </table>` : ''}
 
     </body>
-    </html>\`;
+    </html>`;
 
   const blob = new Blob([html], { type: 'application/msword;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = \`cleanfoam-report-\${nowISO}.doc\`;
+  a.download = `cleanfoam-report-${nowISO}.doc`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
