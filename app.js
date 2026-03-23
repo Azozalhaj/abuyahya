@@ -936,7 +936,10 @@ function renderPendingTable(data) {
       <tr class="${isUrgent?'row-warning':''}" data-id="${u.id}">
         <td style="font-family:var(--font-num);color:var(--text-dim);font-size:.8rem">${i+1}</td>
         <td class="td-name">${u.name}</td>
-        <td dir="ltr" style="font-family:var(--font-num)">${u.phone}</td>
+        <td>
+  <div dir="ltr" style="font-family:var(--font-num);text-align:right;">${u.phone}</div>
+  <a href="https://wa.me/${u.phone.replace(/^0/, '966')}" target="_blank" style="font-size:.75rem;color:var(--success);text-decoration:none;display:inline-block;margin-top:4px;">💬 تواصل بالواتس</a>
+</td>
         <td>${u.neighborhood || '—'}</td>
         <td style="font-size:.82rem">${u.serviceType || '—'}</td>
         <td style="font-size:.78rem;color:var(--text-muted)">${(u.visitDays||[]).join('، ')||'—'}</td>
@@ -977,7 +980,10 @@ function renderActiveTable(data) {
       <tr class="${isComplete?'row-complete':isLow?'row-warning':''}" data-id="${u.id}">
         <td>${numStr}</td>
         <td class="td-name">${u.name}</td>
-        <td dir="ltr" style="font-family:var(--font-num)">${u.phone}</td>
+        <td>
+  <div dir="ltr" style="font-family:var(--font-num);text-align:right;">${u.phone}</div>
+  <a href="https://wa.me/${u.phone.replace(/^0/, '966')}" target="_blank" style="font-size:.75rem;color:var(--success);text-decoration:none;display:inline-block;margin-top:4px;">💬 تواصل بالواتس</a>
+</td>
         <td>${u.neighborhood || '—'}</td>
         <td><span class="badge badge-${total===8?'gold':'teal'}">${total} غسلات</span></td>
         <td style="font-family:var(--font-num);font-weight:700;color:var(--teal)">${u.price ? u.price.toLocaleString()+' ﷼' : '—'}</td>
@@ -1106,7 +1112,7 @@ window.viewClientDetails = async function(uid) {
     <div style="display:flex;flex-direction:column;gap:10px;font-size:.88rem">
       ${[
         ['👤 الاسم',        u.name||'—'],
-        ['📱 الواتساب',     u.phone||'—'],
+        ['📱 الواتساب', u.phone ? `<span dir="ltr">${u.phone}</span> <a href="https://wa.me/${u.phone.replace(/^0/, '966')}" target="_blank" class="badge badge-success" style="margin-right:8px;text-decoration:none;">💬 تواصل</a>` : '—'],
         ['📧 البريد',       u.email||'—'],
         ['📍 الحي',         u.neighborhood||'—'],
         ['🏢 الدور',        u.floor||'—'],
@@ -1428,7 +1434,10 @@ function renderDispatch() {
                     <td style="color:var(--text-dim);font-size:.8rem">${i+1}</td>
                     <td style="font-family:var(--font-num);color:var(--gold);font-weight:800">${numStr}</td>
                     <td class="td-name">${u.name}</td>
-                    <td dir="ltr" style="font-family:var(--font-num)">${u.phone}</td>
+                    <td>
+  <div dir="ltr" style="font-family:var(--font-num);text-align:right;">${u.phone}</div>
+  <a href="https://wa.me/${u.phone.replace(/^0/, '966')}" target="_blank" style="font-size:.75rem;color:var(--success);text-decoration:none;display:inline-block;margin-top:4px;">💬 تواصل بالواتس</a>
+</td>
                     <td>${u.neighborhood||'—'}</td>
                     <td style="font-size:.82rem">${u.serviceType||'—'}</td>
                     <td>
@@ -1869,7 +1878,10 @@ window.showAllUsers = async function() {
               <td style="color:var(--text-dim);font-size:.8rem">${i+1}</td>
               <td class="td-name">${u.name||'—'}</td>
               <td dir="ltr" style="font-size:.82rem">${u.email||'—'}</td>
-              <td dir="ltr" style="font-family:var(--font-num)">${u.phone||'—'}</td>
+              <td>
+  <div dir="ltr" style="font-family:var(--font-num);text-align:right;">${u.phone||'—'}</div>
+  ${u.phone ? `<a href="https://wa.me/${u.phone.replace(/^0/, '966')}" target="_blank" style="font-size:.75rem;color:var(--success);text-decoration:none;display:inline-block;margin-top:4px;">💬 تواصل بالواتس</a>` : ''}
+</td>
               <td><span class="badge ${roleCls[u.role]||'badge-dim'}">${roleLabel[u.role]||u.role}</span></td>
               <td><span class="badge ${u.status==='active'?'badge-success':u.status==='pending'?'badge-warning':'badge-danger'}">${u.status||'—'}</span></td>
               <td>
